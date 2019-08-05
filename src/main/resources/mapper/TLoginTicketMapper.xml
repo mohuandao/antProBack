@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.springsecurity.wdtest.dao.TLoginTicketMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.springsecurity.wdtest.model.TLoginTicket">
+    <id column="lt_id" jdbcType="INTEGER" property="ltId" />
+    <result column="uid" jdbcType="BIGINT" property="uid" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="expired" jdbcType="TIMESTAMP" property="expired" />
+    <result column="ticket" jdbcType="VARCHAR" property="ticket" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_login_ticket
+    where lt_id = #{ltId,jdbcType=INTEGER}
+  </delete>
+  <!--<insert id="insert" parameterType="com.example.demo.springsecurity.wdtest.model.TLoginTicket">
+    <selectKey keyProperty="ltId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_login_ticket (`uid`, `status`, expired, 
+      ticket)
+    values (#{uid,jdbcType=BIGINT}, #{status,jdbcType=VARCHAR}, #{expired,jdbcType=TIMESTAMP}, 
+      #{ticket,jdbcType=VARCHAR})
+  </insert>-->
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.springsecurity.wdtest.model.TLoginTicket">
+    update t_login_ticket
+    set `uid` = #{uid,jdbcType=BIGINT},
+      `status` = #{status,jdbcType=VARCHAR},
+      expired = #{expired,jdbcType=TIMESTAMP},
+      ticket = #{ticket,jdbcType=VARCHAR}
+    where lt_id = #{ltId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select lt_id, `uid`, `status`, expired, ticket
+    from t_login_ticket
+    where lt_id = #{ltId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select lt_id, `uid`, `status`, expired, ticket
+    from t_login_ticket
+  </select>
+
+  <select id="getTLoginTicketByTicket" parameterType="string" resultMap="BaseResultMap">
+    select lt_id, `uid`, `status`, expired, ticket
+    from t_login_ticket
+    where ticket = #{ticket}
+  </select>
+</mapper>

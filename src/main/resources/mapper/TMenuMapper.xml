@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.springsecurity.wdtest.dao.TMenuMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.springsecurity.wdtest.model.TMenu">
+    <id column="id" jdbcType="INTEGER" property="menuId" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="component" jdbcType="VARCHAR" property="component" />
+    <result column="redirect" jdbcType="VARCHAR" property="redirect" />
+    <result column="hideChildrenInMenu" jdbcType="CHAR" property="hidechildreninmenu" />
+    <result column="hideInMenu" jdbcType="CHAR" property="hideinmenu" />
+    <result column="order" jdbcType="INTEGER" property="order" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_menu
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <!--<insert id="insert" parameterType="com.example.demo.springsecurity.wdtest.model.TMenu">
+    <selectKey keyProperty="menuId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_menu (parent_id, `path`, icon,
+      `name`, component, redirect,
+      hideChildrenInMenu, hideInMenu, `order`
+      )
+    values (#{parentId,jdbcType=INTEGER}, #{path,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR},
+      #{name,jdbcType=VARCHAR}, #{component,jdbcType=VARCHAR}, #{redirect,jdbcType=VARCHAR},
+      #{hidechildreninmenu,jdbcType=CHAR}, #{hideinmenu,jdbcType=CHAR}, #{order,jdbcType=INTEGER}
+      )
+  </insert>-->
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.springsecurity.wdtest.model.TMenu">
+    update t_menu
+    set parent_id = #{parentId,jdbcType=INTEGER},
+      `path` = #{path,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      component = #{component,jdbcType=VARCHAR},
+      redirect = #{redirect,jdbcType=VARCHAR},
+      hideChildrenInMenu = #{hidechildreninmenu,jdbcType=CHAR},
+      hideInMenu = #{hideinmenu,jdbcType=CHAR},
+      `order` = #{order,jdbcType=INTEGER}
+    where id = #{menuId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, parent_id, `path`, icon, `name`, component, redirect, hideChildrenInMenu, 
+    hideInMenu, `order`
+    from t_menu
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, parent_id, `path`, icon, `name`, component, redirect, hideChildrenInMenu, 
+    hideInMenu, `order`
+    from t_menu
+  </select>
+
+
+
+
+
+
+    <select id="selectParenMebu" resultMap="BaseResultMap">
+      select id, parent_id, `path`, icon, `name`, component, redirect, hideChildrenInMenu,
+        hideInMenu, `order`
+      from t_menu
+      where parent_id = '0'
+    </select>
+  <select id="selectChildrenMenuByParentId" parameterType="int" resultMap="BaseResultMap">
+    select id, parent_id, `path`, icon, `name`, component, redirect, hideChildrenInMenu,
+      hideInMenu, `order`
+    from t_menu
+    where parent_id = #{id}
+  </select>
+
+  <select id="selectMenuListByRoleId" resultMap="BaseResultMap" parameterType="int">
+    select id, parent_id, `path`, icon, `name`, component, redirect, hideChildrenInMenu,
+      hideInMenu, `order`
+    from t_menu  m JOIN t_role_menu_rel rm on m.id = rm.menu_id
+    WHERE rm.role_id = #{roleId}
+  </select>
+</mapper>
