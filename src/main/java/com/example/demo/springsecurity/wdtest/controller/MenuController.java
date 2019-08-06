@@ -42,7 +42,7 @@ public class MenuController {
 
     @GetMapping("/menu/{type}")
     public List<Object> getMenu1(@PathVariable(value = "type") String type){
-        Date starttime = new Date();
+        //Date starttime = new Date();
         ArrayList<Integer> userids = null;
         //首次登陆时根据用户名查出用户,再查出角色ID,首次登陆时hostholder并没有信息
         if(hostholder.getUsers()==null){
@@ -57,16 +57,21 @@ public class MenuController {
 
         if ("children".equals(type)){
             menuList = menuService.gettMenus(); //菜单管理,需要查询全部
-        }else {
+        }else if(userids!=null && userids.size()>0){
             //首次登陆用第一个角色,查出该角色菜单
             menuList = menuService.getMenusByRoleId(userids.get(0));
+        }else {
+            log.info("该用户没有赋予角色权限");
         }
 
-
+        List<Object> list = null;
         //List<TMenu> menus = menuService.gettMenus();
-        List<Object> list = menuService.getMenus(menuList,type);
-        Date endtime = new Date();
-        log.info(""+(endtime.getTime()-starttime.getTime()));
+        if (menuList!=null && menuList.size()>0){
+             list = menuService.getMenus(menuList,type);
+        }
+
+        //Date endtime = new Date();
+        //log.info(""+(endtime.getTime()-starttime.getTime()));
         return  list;
     }
 
