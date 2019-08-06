@@ -19,4 +19,9 @@ public interface TUserRoleRelMapper extends BaseMapper<TUserRoleRelMapper> {
     List<TUserRoleRel> selectByUserId(@Param("userId") Long userId);
 
     //int updateByPrimaryKey(TUserRoleRel record);
+
+    int deleteByUserId(Long userId);
+
+    int insertRoleIdstoUser(@Param("userId")Long userId,@Param("roleId")int roleId);
+
 }
