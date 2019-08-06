@@ -40,4 +40,14 @@
     where uid = #{userId}
 
   </select>
+
+  <delete id="deleteByUserId" parameterType="java.lang.Long">
+    delete from t_user_role_rel
+    where uid = #{userId}
+  </delete>
+
+  <insert id="insertRoleIdstoUser" >
+    insert into t_user_role_rel (`uid`, role_id)
+    values (#{userId}, #{roleId})
+  </insert>
 </mapper>
