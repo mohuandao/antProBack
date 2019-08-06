@@ -38,5 +38,31 @@ public class RoleService {
         });
         return list;
     }
+    
+    /** 
+    * @Description: 删掉用户的所有角色
+    * @Param: [userId] 
+    * @return: int 
+    * @Author: wdong 
+    * @Date: 2019/8/5 
+    */ 
+    public int deleteRoleIdByUserId(Long userId){
+       return userRoleRelMapper.deleteByPrimaryKey(userId);
+    }
+    
+    /** 
+    * @Description: 为用户添加多个角色 
+    * @Param: [userId, roleIds] 
+    * @return: void 
+    * @Author: wdong 
+    * @Date: 2019/8/5 
+    */ 
+    public void addRoleIdByUserId(Long userId ,ArrayList<Integer> roleIds){
+        if (userId != null && roleIds != null ){
+            roleIds.forEach((roleId) ->{
+                userRoleRelMapper.insertRoleIdstoUser(userId,roleId);
+            });
+        }
+    }
 
 }
