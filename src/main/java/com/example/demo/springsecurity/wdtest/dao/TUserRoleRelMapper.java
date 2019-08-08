@@ -24,4 +24,7 @@ public interface TUserRoleRelMapper extends BaseMapper<TUserRoleRelMapper> {
 
     int insertRoleIdstoUser(@Param("userId")Long userId,@Param("roleId")int roleId);
 
+    //批量插入
+    int insertRoleIdstoUserBatch(@Param("userId")Long userId,@Param("roleIds")List<Integer> roleIds);
+
 }
