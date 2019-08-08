@@ -47,21 +47,34 @@ public class RoleService {
     * @Date: 2019/8/5 
     */ 
     public int deleteRoleIdByUserId(Long userId){
-       return userRoleRelMapper.deleteByPrimaryKey(userId);
+       return userRoleRelMapper.deleteByUserId(userId);
     }
     
     /** 
-    * @Description: 为用户添加多个角色 
-    * @Param: [userId, roleIds] 
+    * @Description: 为用户添加多个角色 ,产生多条insert语句,效率不高
+    * @Param: [userId, roleIds]
     * @return: void 
     * @Author: wdong 
     * @Date: 2019/8/5 
     */ 
-    public void addRoleIdByUserId(Long userId ,ArrayList<Integer> roleIds){
+    public void addRoleIdByUserId_bak(Long userId ,List<Integer> roleIds){
         if (userId != null && roleIds != null ){
             roleIds.forEach((roleId) ->{
                 userRoleRelMapper.insertRoleIdstoUser(userId,roleId);
             });
+        }
+    }
+
+    /** 
+    * @Description: 为用户添加多个角色,批量插入,执行一条SQL
+    * @Param: [userId, roleIds] 
+    * @return: void 
+    * @Author: wdong 
+    * @Date: 2019/8/7 
+    */ 
+    public void addRoleIdByUserId(Long userId ,List<Integer> roleIds){
+        if (userId != null && roleIds != null ){
+            userRoleRelMapper.insertRoleIdstoUserBatch(userId,roleIds);
         }
     }
 
