@@ -50,4 +50,14 @@
     insert into t_user_role_rel (`uid`, role_id)
     values (#{userId}, #{roleId})
   </insert>
+
+  <insert id="insertRoleIdstoUserBatch">
+    insert into t_user_role_rel (`uid`, role_id)
+    values
+      <foreach collection="roleIds" item="item" index="index" separator=",">
+        (#{userId},#{item} )
+      </foreach>
+  </insert>
+
+
 </mapper>
